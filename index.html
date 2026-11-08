@@ -11,9 +11,12 @@
 <meta property="og:locale" content="fr_LU">
 <meta name="theme-color" content="#1b2152">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 44'%3E%3Cpath d='M4 23 28 5l16 12' fill='none' stroke='%231b2152' stroke-width='6'/%3E%3Cpath d='M8 20v21' stroke='%231b2152' stroke-width='6'/%3E%3Crect x='44' y='4' width='8' height='37' fill='%231b2152'/%3E%3Cpath d='M15 31 28 21l13 10v10' fill='none' stroke='%232a86c9' stroke-width='5'/%3E%3Cpath d='M15 30v11' stroke='%232a86c9' stroke-width='5'/%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- Google Fonts : chargées seulement après accord (bannière cookies) -->
+<script>
+window.FH_FONTS='https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Figtree:wght@400;500;600;700&display=swap';
+window.fhLoadFonts=function(){if(document.getElementById('fh-fonts'))return;var l=document.createElement('link');l.id='fh-fonts';l.rel='stylesheet';l.href=window.FH_FONTS;document.head.appendChild(l);};
+try{if(localStorage.getItem('fh-consent')==='yes')window.fhLoadFonts();}catch(e){}
+</script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -43,7 +46,7 @@
   --muted:#5a6282;
   --line:#dbe2ec;
   --white:#ffffff;
-  --display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
+  --display:"Barlow Condensed","Avenir Next Condensed","Roboto Condensed","Arial Narrow","sans-serif-condensed",Arial,sans-serif;
   --body:"Figtree",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   --radius:10px;
   --wrap:1160px;
@@ -69,7 +72,7 @@ p{margin:0}
 .btn-dark:hover{background:#252c66;transform:translateY(-1px)}
 
 /* Header */
-.site-head{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.96);backdrop-filter:saturate(1.4) blur(8px);border-bottom:1px solid var(--line)}
+.site-head{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.96);backdrop-filter:saturate(1.4) blur(8px);border-bottom:1px solid var(--line)}
 .site-head .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:68px}
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none}
 .brand svg{width:46px;height:34px;flex:none}
@@ -83,9 +86,85 @@ p{margin:0}
 .head-actions{display:flex;gap:10px;align-items:center}
 .head-call{display:inline-flex;align-items:center;gap:8px;font-weight:600;text-decoration:none;color:var(--navy);font-variant-numeric:tabular-nums}
 .head-call svg{width:18px;height:18px;color:var(--blue)}
+.head-call{display:none}
 .head-call span{display:none}
-.head-actions .btn{padding:.6em 1.1em;font-size:.95rem}
+.head-actions{gap:4px}
+.head-actions .btn{padding:.6em 1.1em;font-size:.95rem;margin-right:6px}
 .head-actions .btn-primary{display:none}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+body.lock{overflow:hidden}
+.icon-btn{all:unset;box-sizing:border-box;display:inline-grid;place-items:center;width:46px;height:46px;border-radius:10px;color:var(--navy);cursor:pointer;font-size:2rem;line-height:1;transition:background-color .15s ease}
+.icon-btn:hover{background:var(--paper)}
+.icon-btn:focus-visible{outline:3px solid var(--blue);outline-offset:0}
+.icon-btn svg{width:25px;height:25px}
+.burger{display:inline-flex;flex-direction:column;justify-content:center;align-items:center;gap:5px}
+.burger span{display:block;width:28px;height:3px;border-radius:2px;background:var(--blue);transition:transform .25s ease,opacity .2s ease}
+.burger[aria-expanded="true"] span:nth-child(1){transform:translateY(8px) rotate(45deg)}
+.burger[aria-expanded="true"] span:nth-child(2){opacity:0}
+.burger[aria-expanded="true"] span:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
+.btn-line{background:var(--white);border-color:var(--line);color:var(--navy)}
+.btn-line:hover{border-color:var(--blue)}
+
+/* Menu mobile */
+.menu{position:fixed;left:0;right:0;top:68px;bottom:0;z-index:45;overflow-y:auto;color:var(--white);background-color:var(--navy);
+  background-image:linear-gradient(rgba(207,226,244,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(207,226,244,.06) 1px,transparent 1px);
+  background-size:28px 28px;animation:menuIn .25s ease}
+.menu[hidden]{display:none}
+.menu-inner{display:grid;gap:16px;padding-top:18px;padding-bottom:40px}
+.menu-links{list-style:none;margin:0;padding:0}
+.menu-links a{display:flex;align-items:baseline;gap:14px;padding:13px 0;border-bottom:1px solid rgba(207,226,244,.18);font-family:var(--display);font-weight:700;font-size:2rem;line-height:1.1;text-decoration:none;color:var(--white)}
+.menu-links a:hover{color:var(--sky)}
+.menu-links span{font-size:.95rem;color:var(--blue);letter-spacing:.08em;min-width:1.6em}
+.menu-label{font-family:var(--display);font-weight:600;font-size:.95rem;letter-spacing:.16em;text-transform:uppercase;color:var(--sky);margin-top:8px}
+.menu-services{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.menu-services a{display:inline-block;padding:7px 14px;border:1px solid rgba(207,226,244,.3);border-radius:999px;text-decoration:none;font-size:.95rem}
+.menu-services a:hover{border-color:var(--blue);background:rgba(42,134,201,.25)}
+.menu-cta{display:grid;gap:10px;margin-top:10px}
+.menu .btn-line{background:transparent;border-color:rgba(255,255,255,.4);color:var(--white)}
+@keyframes menuIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+
+/* Recherche */
+.search{position:fixed;inset:0;z-index:70;background:var(--paper);overflow-y:auto;animation:fadeIn .2s ease}
+.search[hidden]{display:none}
+.search-inner{max-width:780px;padding-top:14px;padding-bottom:48px}
+.search-box{display:flex;align-items:center;gap:10px;border-bottom:2px solid var(--navy);padding:4px 0}
+.search-box>svg{width:24px;height:24px;color:var(--blue);flex:none}
+.search-box input{flex:1;min-width:0;font:inherit;font-size:1.3rem;border:0;background:transparent;color:var(--ink);padding:10px 0;outline:none;-webkit-appearance:none;appearance:none}
+.search-box input::-webkit-search-cancel-button{display:none}
+.search-sugg[hidden]{display:none}
+.search-sugg{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:16px;font-size:.9rem;color:var(--muted)}
+.search-sugg button{font:inherit;font-size:.92rem;border:1.5px solid var(--line);background:var(--white);border-radius:999px;padding:6px 14px;color:var(--navy);cursor:pointer}
+.search-sugg button:hover{border-color:var(--blue)}
+.results{list-style:none;margin:18px 0 0;padding:0;display:grid;gap:8px}
+.results a{display:grid;gap:3px;padding:14px 16px;background:var(--white);border:1px solid var(--line);border-radius:10px;text-decoration:none}
+.results a:hover,.results a:focus-visible{border-color:var(--blue)}
+.results small{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--blue);font-weight:700}
+.results b{font-family:var(--display);font-size:1.35rem;font-weight:700;color:var(--navy);line-height:1.1}
+.results span{font-size:.92rem;color:var(--muted)}
+.results mark{background:rgba(42,134,201,.2);color:inherit;border-radius:2px;padding:0 1px}
+.results .empty{color:var(--muted);padding:6px 2px}
+.results .empty a{display:inline;padding:0;border:0;background:none;color:var(--blue);text-decoration:underline}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+/* Cookies */
+.cookie{position:fixed;left:12px;right:12px;bottom:86px;z-index:42;max-width:520px;background:var(--white);border:1px solid var(--line);border-radius:14px;box-shadow:0 20px 44px -18px rgba(27,33,82,.5);padding:16px;display:grid;gap:12px;animation:up .3s ease}
+.cookie[hidden]{display:none}
+.cookie p{font-size:.92rem;color:var(--muted);line-height:1.5}
+.cookie b{display:block;font-family:var(--display);font-size:1.3rem;color:var(--navy);margin-bottom:2px}
+.cookie a{color:var(--blue)}
+.cookie-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.cookie-btns .btn{padding:.7em 1em}
+@keyframes up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+
+/* Confidentialité */
+.privacy{border:0;border-radius:14px;padding:0;width:calc(100% - 24px);max-width:640px;max-height:calc(100% - 48px);color:var(--ink);background:var(--white)}
+.privacy::backdrop{background:rgba(10,13,38,.6)}
+.privacy-inner{position:relative;display:grid;gap:8px;padding:28px 22px 26px}
+.privacy h2{font-size:2rem;color:var(--navy);padding-right:48px}
+.privacy h3{font-family:var(--display);font-size:1.25rem;color:var(--navy);margin-top:10px}
+.privacy p{color:var(--muted);font-size:.95rem}
+.privacy-close{position:absolute;top:12px;right:12px}
+.faq details{scroll-margin-top:90px}
 
 /* Hero */
 .hero{position:relative;background-color:var(--navy);color:var(--white);overflow:hidden;
@@ -244,6 +323,10 @@ a.info-row:hover{border-color:var(--blue)}
 .foot a{text-decoration:none}
 .foot a:hover{color:var(--white)}
 .foot-bottom{margin-top:40px;padding-top:20px;border-top:1px solid rgba(255,255,255,.12);font-size:.85rem;display:flex;flex-wrap:wrap;gap:8px 20px;justify-content:space-between}
+.foot-legal{display:flex;flex-wrap:wrap;gap:6px 18px}
+.foot-legal button{all:unset;cursor:pointer}
+.foot-legal a:hover,.foot-legal button:hover{color:var(--white);text-decoration:underline}
+.foot-legal button:focus-visible{outline:2px solid var(--sky);outline-offset:2px}
 
 /* Mobile action bar */
 .mbar{position:fixed;left:0;right:0;bottom:0;z-index:40;display:grid;grid-template-columns:repeat(3,1fr);background:var(--white);border-top:1px solid var(--line);padding:8px 10px calc(8px + env(safe-area-inset-bottom));gap:8px;box-shadow:0 -8px 24px -16px rgba(27,33,82,.4)}
@@ -263,6 +346,7 @@ body{padding-bottom:74px}
   .why{grid-template-columns:repeat(2,1fr);gap:28px 32px}
   .form-row{grid-template-columns:1fr 1fr}
   .foot-grid{grid-template-columns:1.4fr 1fr 1fr}
+  .head-call{display:inline-flex;margin-right:6px}
   .head-call span{display:inline}
 }
 @media (min-width:960px){
@@ -270,6 +354,9 @@ body{padding-bottom:74px}
   .mbar{display:none}
   .nav{display:flex}
   .head-actions .btn-primary{display:inline-flex}
+  .burger,.menu{display:none!important}
+  .cookie{left:24px;right:auto;bottom:24px}
+  .privacy-inner{padding:36px 36px 32px}
   .hero .wrap{grid-template-columns:1fr 1.08fr;align-items:center;gap:48px;padding-top:72px;padding-bottom:80px}
   .cards{grid-template-columns:repeat(3,1fr)}
   .g-floors .cards{grid-template-columns:repeat(2,1fr)}
@@ -292,6 +379,7 @@ body{padding-bottom:74px}
   <symbol id="i-chat" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M4 20l1.3-3.9A8 8 0 1 1 8 19.1L4 20z"/><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M9 10.5h.01M12 10.5h.01M15 10.5h.01"/></symbol>
   <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3.5 6.5 12 13l8.5-6.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
   <symbol id="i-pin" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M15.5 15.5 21 21" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
   <symbol id="i-doc" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M6 3h8l4 4v14H6z"/><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M14 3v4h4M9 12h6M9 16h6"/></symbol>
   <symbol id="logo" viewBox="0 0 60 44">
     <path d="M4 23 28 5l16 12" fill="none" stroke="#1b2152" stroke-width="6" stroke-linejoin="miter"/>
@@ -319,9 +407,59 @@ body{padding-bottom:74px}
     <div class="head-actions">
       <a class="head-call" href="tel:+352621574343"><svg aria-hidden="true"><use href="#i-phone"/></svg><span>621 574 343</span></a>
       <a class="btn btn-primary" href="#contact">Devis gratuit</a>
+      <button type="button" class="icon-btn" id="open-search" aria-label="Rechercher sur le site" aria-controls="search" aria-expanded="false"><svg aria-hidden="true"><use href="#i-search"/></svg></button>
+      <button type="button" class="icon-btn burger" id="open-menu" aria-label="Ouvrir le menu" aria-controls="menu" aria-expanded="false"><span></span><span></span><span></span></button>
     </div>
   </div>
 </header>
+
+<div class="menu" id="menu" hidden>
+  <nav class="wrap menu-inner" aria-label="Menu">
+    <ul class="menu-links">
+      <li><a href="#services"><span>01</span>Services</a></li>
+      <li><a href="#realisations"><span>02</span>Réalisations</a></li>
+      <li><a href="#pourquoi"><span>03</span>Pourquoi nous</a></li>
+      <li><a href="#faq"><span>04</span>FAQ</a></li>
+      <li><a href="#contact"><span>05</span>Contact</a></li>
+    </ul>
+    <p class="menu-label">Nos métiers</p>
+    <ul class="menu-services">
+      <li><a href="#s1">Faux plafonds</a></li>
+      <li><a href="#s2">Peinture</a></li>
+      <li><a href="#s3">Faux murs</a></li>
+      <li><a href="#s4">Carrelage</a></li>
+      <li><a href="#s5">Laminé</a></li>
+      <li><a href="#s6">Façade</a></li>
+      <li><a href="#s7">Terrasse</a></li>
+      <li><a href="#s8">Jardinage</a></li>
+    </ul>
+    <div class="menu-cta">
+      <a class="btn btn-primary" href="#contact"><svg aria-hidden="true"><use href="#i-doc"/></svg>Devis gratuit</a>
+      <a class="btn btn-line" href="tel:+352621574343"><svg aria-hidden="true"><use href="#i-phone"/></svg>+352 621 574 343</a>
+      <a class="btn btn-line" href="https://wa.me/352621574343" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-chat"/></svg>WhatsApp</a>
+    </div>
+  </nav>
+</div>
+
+<div class="search" id="search" role="dialog" aria-modal="true" aria-label="Rechercher sur le site" hidden>
+  <div class="wrap search-inner">
+    <div class="search-box">
+      <svg aria-hidden="true"><use href="#i-search"/></svg>
+      <label class="sr" for="q">Rechercher</label>
+      <input id="q" type="search" placeholder="Peinture, carrelage, devis…" autocomplete="off" enterkeyhint="search">
+      <button type="button" class="icon-btn" id="close-search" aria-label="Fermer la recherche">×</button>
+    </div>
+    <div class="search-sugg" id="search-sugg">
+      <span>Suggestions :</span>
+      <button type="button" data-q="peinture">Peinture</button>
+      <button type="button" data-q="carrelage">Carrelage</button>
+      <button type="button" data-q="façade">Façade</button>
+      <button type="button" data-q="devis">Devis</button>
+      <button type="button" data-q="whatsapp">WhatsApp</button>
+    </div>
+    <ul class="results" id="results" aria-live="polite"></ul>
+  </div>
+</div>
 
 <main id="top">
 <section class="hero" aria-labelledby="hero-title">
@@ -498,7 +636,7 @@ body{padding-bottom:74px}
       </div>
     </div>
 
-    <div class="full">
+    <div class="full" id="renovation-complete">
       <div>
         <h3>Rénovation complète</h3>
         <p>Appartement ou maison : nous coordonnons tous les travaux, dans le bon ordre, avec un seul devis et un seul interlocuteur.</p>
@@ -609,11 +747,11 @@ body{padding-bottom:74px}
       <h2 id="faq-title">Questions fréquentes</h2>
     </div>
     <div class="faq">
-      <details><summary>Le devis est-il gratuit ?</summary><p>Oui, le devis est gratuit et sans engagement.</p></details>
-      <details><summary>Dans quelles communes intervenez-vous ?</summary><p>Nous intervenons partout au Luxembourg, depuis notre siège à Luxembourg.</p></details>
-      <details><summary>Pouvez-vous rénover tout un appartement ou une maison ?</summary><p>Oui. Peinture, sols, faux plafonds, cloisons, façade : une seule équipe s’occupe de tout le chantier.</p></details>
-      <details><summary>Puis-je envoyer des photos pour avoir une première idée du prix ?</summary><p>Oui, envoyez vos photos sur WhatsApp au +352 621 574 343. Nous vous répondons et fixons une visite si nécessaire.</p></details>
-      <details><summary>Combien de temps durent les travaux ?</summary><p>Cela dépend du chantier. La durée est indiquée dans le devis, avant le début des travaux.</p></details>
+      <details id="faq1"><summary>Le devis est-il gratuit ?</summary><p>Oui, le devis est gratuit et sans engagement.</p></details>
+      <details id="faq2"><summary>Dans quelles communes intervenez-vous ?</summary><p>Nous intervenons partout au Luxembourg, depuis notre siège à Luxembourg.</p></details>
+      <details id="faq3"><summary>Pouvez-vous rénover tout un appartement ou une maison ?</summary><p>Oui. Peinture, sols, faux plafonds, cloisons, façade : une seule équipe s’occupe de tout le chantier.</p></details>
+      <details id="faq4"><summary>Puis-je envoyer des photos pour avoir une première idée du prix ?</summary><p>Oui, envoyez vos photos sur WhatsApp au +352 621 574 343. Nous vous répondons et fixons une visite si nécessaire.</p></details>
+      <details id="faq5"><summary>Combien de temps durent les travaux ?</summary><p>Cela dépend du chantier. La durée est indiquée dans le devis, avant le début des travaux.</p></details>
     </div>
   </div>
 </section>
@@ -702,10 +840,35 @@ body{padding-bottom:74px}
     </div>
     <div class="foot-bottom">
       <span>© 2026 F&amp;H Rénovation Sàrl-S</span>
-      <span>Rénovation intérieure et extérieure au Luxembourg</span>
+      <span class="foot-legal"><a href="#confidentialite">Confidentialité</a><button type="button" id="cookie-settings">Gérer les cookies</button></span>
     </div>
   </div>
 </footer>
+
+<div class="cookie" id="cookie" role="region" aria-label="Cookies" hidden>
+  <p><b>Cookies</b>Aucun cookie publicitaire ni de statistiques. Avec votre accord, nous chargeons les polices Google Fonts pour l’affichage du site. <a href="#confidentialite">En savoir plus</a></p>
+  <div class="cookie-btns">
+    <button type="button" class="btn btn-line" id="cookie-no">Refuser</button>
+    <button type="button" class="btn btn-primary" id="cookie-yes">Accepter</button>
+  </div>
+</div>
+
+<dialog class="privacy" id="confidentialite" aria-labelledby="privacy-title">
+  <div class="privacy-inner">
+    <button type="button" class="icon-btn privacy-close" id="privacy-close" aria-label="Fermer">×</button>
+    <h2 id="privacy-title">Politique de confidentialité</h2>
+    <h3>Responsable</h3>
+    <p>F&amp;H Rénovation Sàrl-S, 21 Rue Gabriel Lippmann, L-1943 Luxembourg. E-mail : fh.renovationlux@gmail.com</p>
+    <h3>Vos données</h3>
+    <p>Ce site n’a ni compte client ni base de données. Le formulaire de devis ne nous envoie rien directement : il prépare un message que vous envoyez vous-même sur WhatsApp. Les informations que vous nous transmettez (WhatsApp, téléphone, e-mail) servent uniquement à répondre à votre demande et à établir votre devis.</p>
+    <h3>Hébergement</h3>
+    <p>Le site est hébergé par GitHub Pages (GitHub, Inc.), qui peut enregistrer l’adresse IP des visiteurs pour des raisons de sécurité.</p>
+    <h3>Cookies et polices</h3>
+    <p>Nous n’utilisons aucun cookie publicitaire ni outil de statistiques. Votre choix dans la bannière est enregistré dans votre navigateur. Si vous acceptez, les polices d’écriture sont chargées depuis Google Fonts (Google), qui reçoit alors votre adresse IP. Si vous refusez, le site utilise les polices de votre appareil.</p>
+    <h3>Vos droits</h3>
+    <p>Vous pouvez demander l’accès, la rectification ou l’effacement de vos données en nous écrivant. Vous pouvez aussi déposer une réclamation auprès de la CNPD (Commission nationale pour la protection des données, Luxembourg).</p>
+  </div>
+</dialog>
 
 <nav class="mbar" aria-label="Contact rapide">
   <a href="tel:+352621574343"><svg aria-hidden="true"><use href="#i-phone"/></svg>Appeler</a>
@@ -775,6 +938,93 @@ body{padding-bottom:74px}
   var tx=null;
   lb.addEventListener('touchstart',function(e){tx=e.touches[0].clientX},{passive:true});
   lb.addEventListener('touchend',function(e){if(tx===null)return;var d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>50)show(d<0?cur+1:cur-1);tx=null});
+
+  // Menu mobile
+  var menu=document.getElementById('menu'),mbtn=document.getElementById('open-menu');
+  function setMenu(open){
+    menu.hidden=!open;mbtn.setAttribute('aria-expanded',open);
+    mbtn.setAttribute('aria-label',open?'Fermer le menu':'Ouvrir le menu');
+    document.body.classList.toggle('lock',open);
+  }
+  mbtn.addEventListener('click',function(){setMenu(menu.hidden)});
+  menu.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){setMenu(false)})});
+
+  // Recherche
+  function norm(s){return s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase()}
+  function esc(s){return s.replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+  var idx=[];
+  document.querySelectorAll('.card').forEach(function(c){
+    idx.push({cat:'Service',title:c.querySelector('h3').textContent,text:c.querySelector('p').textContent+' '+[].map.call(c.querySelectorAll('li'),function(l){return l.textContent}).join(' · '),id:c.id});
+  });
+  var full=document.getElementById('renovation-complete');
+  idx.push({cat:'Service',title:'Rénovation complète',text:full.querySelector('p').textContent+' appartement maison',id:'renovation-complete'});
+  document.querySelectorAll('.faq details').forEach(function(d){
+    idx.push({cat:'FAQ',title:d.querySelector('summary').textContent,text:d.querySelector('p').textContent,id:d.id,faq:true});
+  });
+  document.querySelectorAll('#gallery .shot').forEach(function(s){
+    idx.push({cat:'Réalisation',title:s.querySelector('figcaption b').textContent,text:s.querySelector('figcaption span').textContent,id:'realisations'});
+  });
+  document.querySelectorAll('.why-item').forEach(function(w){
+    idx.push({cat:'Pourquoi nous',title:w.querySelector('h3').textContent,text:w.querySelector('p').textContent,id:'pourquoi'});
+  });
+  idx.push({cat:'Contact',title:'Téléphone, WhatsApp et e-mail',text:'+352 621 574 343 · +352 661 240 196 · WhatsApp · fh.renovationlux@gmail.com · 21 Rue Gabriel Lippmann, L-1943 Luxembourg · devis gratuit appeler téléphone adresse',id:'contact'});
+  idx.forEach(function(it){it.n=norm(it.title+' '+it.text);it.nt=norm(it.title)});
+
+  var search=document.getElementById('search'),q=document.getElementById('q'),results=document.getElementById('results'),sugg=document.getElementById('search-sugg'),sbtn=document.getElementById('open-search');
+  function hl(text,terms){
+    var out=esc(text);
+    terms.forEach(function(t){if(t.length<2)return;out=out.replace(new RegExp('('+t.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi'),'<mark>$1</mark>')});
+    return out;
+  }
+  function run(){
+    var raw=q.value.trim(),terms=norm(raw).split(/\s+/).filter(Boolean),rawTerms=raw.split(/\s+/).filter(Boolean);
+    sugg.hidden=!!raw;
+    if(!terms.length){results.innerHTML='';return}
+    var hits=idx.filter(function(it){return terms.every(function(t){return it.n.indexOf(t)>-1})})
+      .map(function(it){var s=0;terms.forEach(function(t){if(it.nt.indexOf(t)>-1)s+=2});if(it.cat==='Service')s+=1;return {it:it,s:s}})
+      .sort(function(a,b){return b.s-a.s}).slice(0,8);
+    if(!hits.length){
+      results.innerHTML='<li class="empty">Aucun résultat pour « '+esc(raw)+' ». Posez-nous la question sur <a href="https://wa.me/352621574343" target="_blank" rel="noopener">WhatsApp</a>.</li>';return;
+    }
+    results.innerHTML=hits.map(function(h){
+      var it=h.it,snip=it.text.length>120?it.text.slice(0,117)+'…':it.text;
+      return '<li><a href="#'+it.id+'"'+(it.faq?' data-faq="1"':'')+'><small>'+esc(it.cat)+'</small><b>'+hl(it.title,rawTerms)+'</b><span>'+hl(snip,rawTerms)+'</span></a></li>';
+    }).join('');
+  }
+  function openSearch(){setMenu(false);search.hidden=false;sbtn.setAttribute('aria-expanded','true');document.body.classList.add('lock');setTimeout(function(){q.focus()},30)}
+  function closeSearch(){search.hidden=true;sbtn.setAttribute('aria-expanded','false');document.body.classList.remove('lock')}
+  sbtn.addEventListener('click',openSearch);
+  document.getElementById('close-search').addEventListener('click',function(){closeSearch();sbtn.focus()});
+  q.addEventListener('input',run);
+  sugg.querySelectorAll('button').forEach(function(b){b.addEventListener('click',function(){q.value=b.getAttribute('data-q');run();q.focus()})});
+  results.addEventListener('click',function(e){
+    var a=e.target.closest('a');if(!a||a.target==='_blank')return;
+    closeSearch();
+    if(a.getAttribute('data-faq')){var d=document.getElementById(a.getAttribute('href').slice(1));if(d)d.open=true}
+  });
+  document.addEventListener('keydown',function(e){
+    if(e.key!=='Escape')return;
+    if(!search.hidden){closeSearch();sbtn.focus()}
+    else if(!menu.hidden){setMenu(false);mbtn.focus()}
+  });
+
+  // Cookies
+  var cookie=document.getElementById('cookie');
+  function getConsent(){try{return localStorage.getItem('fh-consent')}catch(e){return null}}
+  function setConsent(v){try{localStorage.setItem('fh-consent',v)}catch(e){}if(v==='yes'&&window.fhLoadFonts)window.fhLoadFonts();cookie.hidden=true}
+  if(!getConsent())cookie.hidden=false;
+  document.getElementById('cookie-yes').addEventListener('click',function(){setConsent('yes')});
+  document.getElementById('cookie-no').addEventListener('click',function(){setConsent('no')});
+  document.getElementById('cookie-settings').addEventListener('click',function(){cookie.hidden=false;document.getElementById('cookie-yes').focus()});
+
+  // Confidentialité
+  var dlg=document.getElementById('confidentialite');
+  function openPrivacy(){if(dlg.showModal){if(!dlg.open)dlg.showModal()}else{dlg.setAttribute('open','')}}
+  function closePrivacy(){if(dlg.close)dlg.close();else dlg.removeAttribute('open')}
+  document.querySelectorAll('a[href="#confidentialite"]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();openPrivacy()})});
+  document.getElementById('privacy-close').addEventListener('click',closePrivacy);
+  dlg.addEventListener('click',function(e){if(e.target===dlg)closePrivacy()});
+  if(location.hash==='#confidentialite')openPrivacy();
 
   var form=document.getElementById('quote');
   var err=document.getElementById('f-error');
